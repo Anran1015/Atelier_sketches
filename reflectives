@@ -1,0 +1,70 @@
+import oscP5.*;
+import netP5.*;
+
+OscP5 oscP5; 
+NetAddress destination;
+Boolean canHazOSC;
+int receivedMouseX;
+int receivedMouseY;
+int lastMouseX;
+int lastMouseY;
+
+
+void setup() {
+  fullScreen();
+ oscP5 = new OscP5(this, 9000);
+
+  destination = new NetAddress("127.0.0.1", 9000);
+  canHazOSC = false;
+  background(0);
+}
+void draw() {
+
+
+
+  if (canHazOSC == true) {
+
+    filter(BLUR, 1);
+    float m = map(mouseX, 0, width, 0, 255);
+    stroke(20, m*2, m, 255);
+    line(lastMouseX, lastMouseY, receivedMouseX, receivedMouseY);
+    line(width-lastMouseX, lastMouseY, width-receivedMouseX, receivedMouseY);
+    line(lastMouseX, height-lastMouseY, receivedMouseX, height-receivedMouseY);
+    line(width-lastMouseX, height-lastMouseY, width-receivedMouseX, height-receivedMouseY);
+
+    ellipse(receivedMouseX, receivedMouseY, 5,5);
+    ellipse(width-receivedMouseX, receivedMouseY, 5,5);
+    ellipse(receivedMouseX, height-receivedMouseY, 5,5);
+    ellipse(width-receivedMouseX, height-receivedMouseY, 5,5);
+    canHazOSC = false;
+    lastMouseX=receivedMouseX;
+    lastMouseY=receivedMouseY;
+  }
+}
+
+void mousePressed() {
+
+  if (mousePressed == true) {
+    OscMessage mymessage = new OscMessage("/line");
+    mymessage.add(mouseX);
+    mymessage.add(mouseY);
+    oscP5.send(mymessage, destination);
+  }
+
+
+
+
+  if (key=='s') {
+    saveFrame();
+  }
+}
+
+
+void oscEvent(OscMessage incomingMessage) {
+  if (incomingMessage.checkAddrPattern("/line") == true) {
+
+    canHazOSC = true;
+    receivedMouseX = incomingMessage.get(0).intValue();
+    receivedMouseY = incomingMessage.get(1).intValue();
+  }
+}

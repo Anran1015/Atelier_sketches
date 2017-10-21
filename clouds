@@ -1,0 +1,38 @@
+
+  float spinc;
+ float speedcx;
+  float speedcy;
+
+
+
+void setup(){
+size(500,500);
+frameRate(40);
+}
+
+
+void draw(){
+  background(frameCount%220,100,frameCount%255);
+   translate(mouseX, mouseY);
+ for (int column =0; column<3; column++) {
+      for (int row=0; row<2; row++) {
+        pushMatrix();
+       
+        translate(column*30, row*30); 
+        rotate(spinc);
+       
+       
+        strokeWeight(50);
+        float col=map(mouseX,0,width,0,255);
+        stroke(col,200,col%40);
+        fill(col,200,col%40);
+        ellipse(0, 0, 30, 30);
+        line(-20, -20, 20, 20);
+        line(-20, 20, 20, -20);
+        popMatrix();
+      }
+ }
+ 
+   spinc+=0.05;
+ 
+}

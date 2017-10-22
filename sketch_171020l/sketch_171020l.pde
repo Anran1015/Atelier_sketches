@@ -11,6 +11,7 @@ import oscP5.*;
 Minim minim;
 AudioPlayer player;
 
+
 //
 // a template for receiving face tracking osc messages from
 // Kyle McDonald's FaceOSC https://github.com/kylemcdonald/ofxFaceTracker
@@ -48,7 +49,7 @@ size(600,800);
   frameRate(50);
     minim = new Minim(this);
       player = minim.loadFile("tiger.mp3");
-  
+  //load the tiger sound effect
 
   oscP5 = new OscP5(this, 8338);
   oscP5.plug(this, "found", "/found");
@@ -79,11 +80,11 @@ void draw() {
 
    
   }
-  if(mouthHeight>2){
-   println("aaaa");
-   
+  if(mouthHeight>2){   
    player.play();
+   //if mouse is open, play the tiger roaring sound effect
 }else {
+//else stop the sound and reset the position to the beginning.
 player.pause();
 player.rewind();
 }

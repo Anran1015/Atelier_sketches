@@ -14,7 +14,7 @@ void setup() {
   fullScreen();
  oscP5 = new OscP5(this, 9000);
 
-  destination = new NetAddress("127.0.0.1", 9000);
+  destination = new NetAddress("127.0.0.1", 9000);// set the ip that the message will be sent to
   canHazOSC = false;
   background(0);
 }
@@ -27,7 +27,9 @@ void draw() {
     filter(BLUR, 1);
     float m = map(mouseX, 0, width, 0, 255);
     stroke(20, m*2, m, 255);
+    
     line(lastMouseX, lastMouseY, receivedMouseX, receivedMouseY);
+    // symetrical effect:
     line(width-lastMouseX, lastMouseY, width-receivedMouseX, receivedMouseY);
     line(lastMouseX, height-lastMouseY, receivedMouseX, height-receivedMouseY);
     line(width-lastMouseX, height-lastMouseY, width-receivedMouseX, height-receivedMouseY);
@@ -36,8 +38,9 @@ void draw() {
     ellipse(width-receivedMouseX, receivedMouseY, 5,5);
     ellipse(receivedMouseX, height-receivedMouseY, 5,5);
     ellipse(width-receivedMouseX, height-receivedMouseY, 5,5);
+    
     canHazOSC = false;
-    lastMouseX=receivedMouseX;
+    lastMouseX=receivedMouseX;//set the mouse Position as the former one
     lastMouseY=receivedMouseY;
   }
 }
@@ -45,26 +48,26 @@ void draw() {
 void mousePressed() {
 
   if (mousePressed == true) {
-    OscMessage mymessage = new OscMessage("/line");
-    mymessage.add(mouseX);
+    OscMessage mymessage = new OscMessage("/line");//create new message
+    mymessage.add(mouseX);//add mouse position to the message
     mymessage.add(mouseY);
-    oscP5.send(mymessage, destination);
+    oscP5.send(mymessage, destination);//send message
   }
 
 
 
 
   if (key=='s') {
-    saveFrame();
+    saveFrame();//press "s" to create screenshot
   }
 }
 
 
 void oscEvent(OscMessage incomingMessage) {
-  if (incomingMessage.checkAddrPattern("/line") == true) {
+  if (incomingMessage.checkAddrPattern("/line") == true) {  //if receive the new message
 
     canHazOSC = true;
-    receivedMouseX = incomingMessage.get(0).intValue();
+    receivedMouseX = incomingMessage.get(0).intValue();//get the first and the second message as mouse X and mouse Y values
     receivedMouseY = incomingMessage.get(1).intValue();
   }
 }

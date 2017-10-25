@@ -1,0 +1,13 @@
+{"planets":[
+		{"size":10, "dist":100},
+		{"size":20, "dist":110},
+		{"size":30,  "dist":120},
+		{"size":40, "dist":130},
+		{"size":50, "dist":140},
+		{"size":60, "dist":140},
+		{"size":70, "dist":150},
+		{"size":80, "dist":160},
+		{"size":90, "dist":170},
+		{"size":100, "dist":180}
+			]
+}

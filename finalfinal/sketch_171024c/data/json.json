@@ -1,0 +1,12 @@
+{"planets":[
+		{"name":"mercury", "size":8, "dist":100, "speed":0.005},
+		{"name":"venus", "size":16, "dist":120, "speed":0.0035},
+		{"name":"earth","size":16.6,  "dist":140, "speed":0.003},
+		{"name":"mars","size":10.8, "dist":160, "speed":0.0024},
+		{"name":"jupiter","size":52, "dist":180, "speed":0.0013},
+		{"name":"saturn","size":37, "dist":200, "speed":0.0009},
+		{"name":"uranus","size":27, "dist":220, "speed":0.0006},
+		{"name":"neptune","size":27.6, "dist":240, "speed":0.0005},
+		{"name":"pluto","size":0, "dist":260, "speed":0.01}
+			]
+}

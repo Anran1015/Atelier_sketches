@@ -1,0 +1,248 @@
+
+
+let offset1;
+let offset2;
+let scale;
+let size = 0.0005;
+let c1;
+let c2;
+let px, py, px1, px2,px3, px4;
+let a;
+let r;
+let speed;
+let rad;
+
+let sp;
+
+let elements = [];  // elements array
+let t;              // variable t used to manipulate noise functions
+
+function setup() {
+  canvas = createCanvas(windowWidth, windowHeight);
+  background(128);  // start with grey background
+  noStroke();       // remove stroke
+  noFill();         // remove fill
+  t = 0;            // set initial t value as 0
+   offset1 = new createVector(random(10000), random(10000));
+   offset2 = new createVector(random(10000), random(10000));
+mousePressed();
+  
+ scale=0.01;
+ frameRate(10);
+  sp=0;
+
+
+
+    
+  for (let i = 0; i <8; i++) {
+    elements[i] = {
+      y:random(100,windowHeight-100),
+
+    };
+  }
+  
+
+  px1=height/2;
+  px2=height/2;
+  px3=height/2;
+  px4=height/2;
+  
+  rad=10;
+ 
+}
+
+
+function draw(){
+  background(0);
+  
+
+if (scale >= 0.03 ){//5
+    scale-=size;
+    
+
+  
+  if (scale <= 0.01) {
+    // scale=0.01; 
+    size=0;
+
+    sp-=20;
+
+  }
+
+
+
+  push();
+  petal(px1,elements[1].y, random(0.005,0.01));
+  pop();
+  
+  
+  push();
+  petal(px2, elements[2].y, random(0.008,0.01));
+  pop();
+  
+  push();
+  petal(px3,elements[3].y,random(0.005,0.008));
+  pop();
+
+  push();
+  petal(px4, elements[4].y, random(0.005,0.01));
+  pop();
+
+
+rad+=1;
+
+}
+
+
+push();
+  translate(400,height/2); 
+
+  flower();
+  pop();
+ 
+
+
+
+  px1+=random(6,15);
+  px2+=random(5,8);
+  px3+=random(4,10); 
+  px4+=random(10,16);
+  
+  
+  
+ 
+  
+  
+   
+  if(px1>windowWidth-100){
+         
+        px1=400;
+         
+         }
+  
+  if(px2>windowWidth-100){
+         
+        px2=400;
+         
+         }
+  
+    if(px3>windowWidth-100){
+         
+        px3=random(300,400);
+         
+         }
+
+    if(px4>windowWidth-100){
+         
+        px4=random(300,400);
+         
+         }
+  
+
+
+  
+
+  console.log(scale);
+
+ 
+
+}
+
+
+
+function petal(x,y,s){
+
+  translate(x,y);
+
+  
+  for(var i = 250; i > 0; i -= 20){
+    fill(map(250, 0, 250, red(c1), red(c2)),
+         map(250, 0, 250, green(c1), green(c2)),
+         map(250, 0, 250, blue(c1), blue(c2)));
+
+ 
+    beginShape();
+    for(var angle = 0; angle < 360; angle += 0.5){
+      var radian = radians(angle); 
+      var x = 20 * cos(radian);
+      var y = 20 * sin(radian);
+      var nx = x + map(
+        noise(
+          x * s + offset1.x, 
+          y * s + offset1.y, 
+          frameCount * 0.015
+        ), 
+        
+        0, 1, -200, 200);
+      
+      var ny = y + map(
+        noise(x * s + offset2.x, 
+              y * s + offset2.y, 
+              frameCount * 0.015
+             ), 0, 1, -200, 200);
+     
+      vertex(nx, ny);
+
+    }
+    endShape(CLOSE);
+  }
+
+  }
+    
+  
+
+
+
+
+function flower(){
+  
+
+  for(var radious=250; radious > 0; radious -= rad){
+    fill(map(radious, 0, 250, red(c1), red(c2)),
+         map(radious, 0, 250, green(c1), green(c2)),
+         map(radious, 0, 250, blue(c1), blue(c2)));
+// fill(100,100);
+    beginShape();
+    for(var angle = 0; angle < 360; angle += 0.5){
+      var radian = radians(angle); 
+      var x = radious * cos(radian);
+      var y = radious * sin(radian);
+      var nx = x + map(
+        noise(
+          x * scale + offset1.x, 
+          y * scale + offset1.y, 
+          frameCount * 0.015
+        ), 
+        
+        0, 1, -200, 200);
+      
+      var ny = y + map(
+        noise(x * scale + offset2.x, 
+              y * scale + offset2.y, 
+              frameCount * 0.015
+             ), 0, 1, -200, 200);
+     
+      vertex(nx, ny);
+    }
+    endShape(CLOSE);
+  }
+   
+
+    scale += size;
+  
+
+
+
+
+
+}
+
+
+// function scaleTo(){
+ 
+// }
+
+function mousePressed(){
+  c1 = color(noise(255), random(255), random(255));
+  c2 = color(random(255), random(255), random(255));
+}
